@@ -20,6 +20,7 @@ from api import views
 from django.conf import settings
 from .settings import *
 from django.conf.urls.static import static
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,5 @@ urlpatterns = [
     re_path(r'^api/photos/(\d+)$', views.photo_detail),
     re_path(r'^api/occupieddates/$', views.occupied_date_list),
     re_path(r'^api/occupieddates/(\d+)$', views.occupied_date_detail),
+    path('api/', lambda request: HttpResponse('Hello Okey let"s change it!')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
