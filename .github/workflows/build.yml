@@ -47,7 +47,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           chmod 400 key.pem
           ssh -i key.pem ${{secrets.USERNAME}}@${{secrets.HOST_DNS}} -p 22 '
-            cd /home/ec2-user/booking-copy/booking-back/Booking-copy-back
+            cd /home/ec2-user/booking-copy/Booking-copy-back
             kill $(lsof -t -i:8000)
             gunicorn django_back.wsgi:application -D
           '
