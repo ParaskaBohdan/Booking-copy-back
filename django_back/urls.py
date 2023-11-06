@@ -15,24 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-from api import views
+from django.urls import include, path
 from django.conf import settings
 from .settings import *
 from django.conf.urls.static import static
-from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^api/dwellings/$', views.dwelling_list),
-    re_path(r'^api/dwellings/(\d+)$', views.dwelling_detail),
-    re_path(r'^api/dwellingstype/$', views.dwelling_type_list),
-    re_path(r'^api/dwellingstype/(\d+)$', views.dwelling_type_detail),
-    re_path(r'^api/cities/$', views.city_list),
-    re_path(r'^api/cities/(\d+)$', views.city_detail),
-    re_path(r'^api/photos/$', views.photo_list),
-    re_path(r'^api/photos/(\d+)$', views.photo_detail),
-    re_path(r'^api/occupieddates/$', views.occupied_date_list),
-    re_path(r'^api/occupieddates/(\d+)$', views.occupied_date_detail),
-    path('api/', lambda request: HttpResponse('Hello Okey let"s change it!')),
+    path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,11 @@
-from rest_framework import viewsets
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializer import *
+from rest_framework.decorators import api_view
+from rest_framework import viewsets, authentication, permissions
+from django.contrib.auth import get_user_model
+
 
 @api_view(['GET', 'POST'])
 def dwelling_type_list(request):
@@ -169,3 +171,9 @@ def occupied_date_detail(request, pk):
     elif request.method == 'DELETE':
         occupied_date.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+User = get_user_model()
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
