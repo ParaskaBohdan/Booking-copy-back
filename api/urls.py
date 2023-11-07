@@ -1,11 +1,13 @@
 from django.urls import path, include
 from api import views
 from rest_framework import routers
+from django.contrib import admin
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('dwellings/', views.dwelling_list),
     path('dwellings/<int:pk>/', views.dwelling_detail),
     path('dwellingstype/', views.dwelling_type_list),
