@@ -53,7 +53,6 @@ class DwellingTypeDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class PhotoListView(generics.ListCreateAPIView):
     serializer_class = PhotoSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly,]
 
     def perform_create(self, serializer):
         serializer.save()
@@ -64,7 +63,6 @@ class PhotoListView(generics.ListCreateAPIView):
 class PhotoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly,]
 
 class OccupiedDateListView(generics.ListCreateAPIView):
     serializer_class = OccupiedDateSerializer
