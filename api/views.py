@@ -3,12 +3,12 @@ from .serializer import CitySerializer, DwellingSerializer, DwellingTypeSerializ
 from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions, generics
 from django.contrib.auth import get_user_model
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly
 
 
 class DwellingListView(generics.ListCreateAPIView):
     serializer_class = DwellingSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -23,7 +23,7 @@ class DwellingDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class CityListView(generics.ListCreateAPIView):
     serializer_class = CitySerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save()
@@ -34,11 +34,11 @@ class CityListView(generics.ListCreateAPIView):
 class CityDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = City.objects.all()
     serializer_class = CitySerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class DwellingTypeListView(generics.ListCreateAPIView):
     serializer_class = DwellingTypeSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save()
@@ -49,11 +49,11 @@ class DwellingTypeListView(generics.ListCreateAPIView):
 class DwellingTypeDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = DwellingType.objects.all()
     serializer_class = DwellingTypeSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class PhotoListView(generics.ListCreateAPIView):
     serializer_class = PhotoSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save()
@@ -64,11 +64,11 @@ class PhotoListView(generics.ListCreateAPIView):
 class PhotoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class OccupiedDateListView(generics.ListCreateAPIView):
     serializer_class = OccupiedDateSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -90,7 +90,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class ReviewListView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
