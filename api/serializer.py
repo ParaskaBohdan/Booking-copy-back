@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import City, Dwelling, Photo, OccupiedDate, DwellingType, User
+from .models import City, Dwelling, Photo, OccupiedDate, DwellingType, User, Review
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import serializers
@@ -50,3 +50,11 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+        
+class ReviewSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Review
+        fields = '__all__'
+        read_only_fields = ['id', 'user', 'created_at', 'updated_at']
