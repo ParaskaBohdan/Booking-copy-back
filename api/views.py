@@ -3,7 +3,7 @@ from .serializer import CitySerializer, DwellingSerializer, DwellingTypeSerializ
 from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions, generics
 from django.contrib.auth import get_user_model
-from .permissions import IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly, IsOwnerOrReadOnlyNoAuth
 
 
 class DwellingListView(generics.ListCreateAPIView):
@@ -19,7 +19,7 @@ class DwellingListView(generics.ListCreateAPIView):
 class DwellingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Dwelling.objects.all()
     serializer_class = DwellingSerializer
-    permission_classes = [IsOwnerOrReadOnly,]
+    permission_classes = [IsOwnerOrReadOnlyNoAuth,]
 
 class CityListView(generics.ListCreateAPIView):
     serializer_class = CitySerializer
