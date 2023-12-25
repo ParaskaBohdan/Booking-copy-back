@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import CityDetailView, CityListView, DwellingDetailView, DwellingListView, DwellingTypeDetailView, DwellingTypeListView, OccupiedDateDetailView, OccupiedDateListView, PhotoDetailView, PhotoListView, ReviewDetailView, UserViewSet
+from .views import ReviewListView, CityDetailView, CityListView, DwellingDetailView, DwellingListView, DwellingTypeDetailView, DwellingTypeListView, OccupiedDateDetailView, OccupiedDateListView, PhotoDetailView, PhotoListView, ReviewDetailView, UserViewSet
 from rest_framework import routers
 from django.contrib import admin
 from drf_spectacular.views import (
@@ -27,6 +27,7 @@ urlpatterns = [
     path('occupied-dates/', OccupiedDateListView.as_view(), name='occupied-date-list'),
     path('occupied-dates/<int:pk>/', OccupiedDateDetailView.as_view(), name='occupied-date-detail'),
     
+    path('reviews/', ReviewListView.as_view(), name='review-list'),
     path('reviews/<int:pk>/', ReviewDetailView.as_view(), name='review-detail'),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
