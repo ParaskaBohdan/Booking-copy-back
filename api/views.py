@@ -99,4 +99,4 @@ class ReviewListView(generics.ListCreateAPIView):
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsOwnerOrReadOnly,]
+    permission_classes = [IsOwnerOrReadOnlyNoAuth,]
