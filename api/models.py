@@ -102,8 +102,8 @@ class OccupiedDate(models.Model):
         return f"from {self.check_in} to {self.check_out}" 
     
 class Review(models.Model):
-    dwelling = models.ForeignKey(Dwelling, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    dwelling = models.ForeignKey(Dwelling, on_delete=models.CASCADE, related_name='reviews', unique=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', unique=False)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -113,7 +113,6 @@ class Review(models.Model):
         verbose_name = 'Review'
         verbose_name_plural = 'Reviews'
         ordering = ['-created_at']
-        unique_together = ['dwelling', 'user']
 
     def __str__(self):
         return f'{self.dwelling.title} - {self.user.email}'
