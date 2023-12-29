@@ -1,5 +1,4 @@
-import datetime
-import re
+
 from .models import Dwelling, DwellingType, OccupiedDate, City, Photo, Review
 from .serializer import CitySerializer, DwellingSerializer, DwellingTypeSerializer, OccupiedDateSerializer, PhotoSerializer, UserSerializer, ReviewSerializer
 from rest_framework import viewsets, permissions, generics
@@ -9,7 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-
+from .validations import card_verification
 
 class DwellingListView(generics.ListCreateAPIView):
     serializer_class = DwellingSerializer
@@ -105,29 +104,9 @@ class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsOwnerOrReadOnlyNoAuth,]
     
-def card_verification(card_number, expiration_date, cvv):
-    if not card_number or not expiration_date or not cvv:
-        return False
-
-    if not card_number.isdigit() or len(card_number) != 16:
-        return False
-
-    if not re.match(r'\d{2}/\d{2}', expiration_date):
-        return False
-
-    expiration_month, expiration_year = map(int, expiration_date.split('/'))
-    current_date = datetime.datetime.today()
-    if current_date.year > 2000 + expiration_year or (current_date.year == 2000 + expiration_year and current_date.month > expiration_month):
-        return False
-
-    if not cvv.isdigit() or len(cvv) != 3:
-        return False
-
-    return True
-    
 class PaymentView(APIView):
     permission_classes = [IsAuthenticated]
-
+   
     def post(self, request, *args, **kwargs):
         card_number = request.data.get('card_number')
         expiration_date = request.data.get('expiration_date')
